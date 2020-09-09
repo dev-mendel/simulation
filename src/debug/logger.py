@@ -62,9 +62,9 @@ class Logger:
             self.allLogFile.write(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + "\n\n")
 
         if showInConsole:
-            print("######## " + self.className + "\n")
-            print("Event: " + str(description) + "\n")
-            print(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + "\n\n")
+            print("######## " + self.className + "\n", flush=True)
+            print("Event: " + str(description) + "\n", flush=True)
+            print(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + "\n\n", flush=True)
       
     @staticmethod
     def clean():

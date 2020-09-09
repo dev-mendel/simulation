@@ -9,7 +9,6 @@ from debug.logger import Loggable
 #from objects.object import Object
 from utils.vector import Vector
 
-
 class Grid:
     """
     Singleton class for storing object in machine
@@ -38,9 +37,13 @@ class Grid:
 
             self.grid_edge_size = int(IniLoader.load(env + "grid_size"))  # mm
 
-            self.grid = [[[Grid.Stack() for k in range(self.size_x // self.grid_edge_size)]
-                                for j in range(self.size_y // self.grid_edge_size)]
-                                    for i in range(self.size_z // self.grid_edge_size)]
+            (x_max, y_max, z_max) = self.max_range()
+
+            self.logger.log("creating pool: " + str(self.size_x * self.size_y * self.size_z))
+
+            self.grid = [[[Grid.Stack() for k in range(z_max)]
+                                for j in range(y_max)]
+                                    for i in range(x_max)]
             # self.grid = np.empty((int(self.size_x / self.grid_edge_size),
             #                      int(self.size_y / self.grid_edge_size),
             #                      int(self.size_z / self.grid_edge_size), S))
@@ -50,7 +53,8 @@ class Grid:
             #        for z in range(int(self.size_z / self.grid_edge_size)):
             #            self.grid[x][y][z] = []
 
-            self.logger.log("created, pool has: " + str(len(self.grid)))
+            self.logger.log("created, pool has: " + str(len(self.grid))+" "+str(len(self.grid[0]))+" "+str(len(self.grid[0][0]))
+                            +"\n"+str(x_max)+","+str(y_max)+","+str(z_max), showInConsole=True)
 
         def set(self, o):
             """
@@ -60,14 +64,58 @@ class Grid:
             (x, y, z) = self.to_grid_pos(o.position)
             if not self.in_range(o.position):
                 self.logger.log("couldn't store object " + str(o.id) + " at position " + str(o.position), showInConsole=True)
+                exit(1)
             else:
-                self.grid[x][y][z].add(o)
+                try:
+                    self.grid[x][y][z].add(o)
+                except IndexError:
+                    self.logger.log("Out of range " + str(o.id) + " at position " + str(o.position),
+                                    showInConsole=True)
+                    exit(1)
+
+        def max_range(self):
+            """
+            :return: Tuple [x, y, z] with max walls positions
+            """
+            s = self.grid_edge_size
+            return self.to_grid_pos(Vector(self.size_x // s, self.size_y // s, self.size_z // s))
 
         def in_range(self, pos):
             (x, y, z) = self.to_grid_pos(pos)
+            (x_max, y_max, z_max) = self.max_range()
             s = self.grid_edge_size
             # return x < 0 or y < 0 or z < 0 or x >= self.size_x // s or y >= self.size_y // s or z >= self.size_z // s
-            return x in range(x // s) and y in range(y // s) and z in range(z // s)
+            return x in range(x_max) and y in range(y_max) and z in range(z_max)
+
+        def wall_collision_next_position(self, pos, dir):
+            """
+            :param pos: Vector
+            :param dir: Vector direction of object
+            :return: Vector, Vector: new position of object after wall collision, and new direction
+            """
+            (x, y, z) = self.to_grid_pos(pos)
+            (x_dir, y_dir, z_dir) = self.to_grid_pos(dir)
+            (x_max, y_max, z_max) = self.max_range()
+            if x not in range(x_max):
+                if x < 0:
+                    x = abs(x) % x_max
+                else:
+                    over = x % x_max
+                    x = x_max - over
+            elif y not in range(y_max):
+                if y < 0:
+                    y = abs(y) % y_max
+                else:
+                    over = y % y_max
+                    y = y_max - over
+            elif z not in range(z_max):
+                if z < 0:
+                    z = abs(z) % z_max
+                else:
+                    over = z % z_max
+                    z = z_max - over
+
+            return Vector(x, y, z)
 
         def remove(self, o):
             """
@@ -77,12 +125,18 @@ class Grid:
             (x, y, z) = self.to_grid_pos(o.position)
             if not self.in_range(o.position):
                 self.logger.log("couldn't remove object " + str(o.id) + " at position " + str(o.position), showInConsole=True)
+                exit(1)
             else:
-                self.grid[x][y][z].remove(o)
+                try:
+                    self.grid[x][y][z].remove(o)
+                except IndexError:
+                    self.logger.log("Out of range " + str(o.id) + " at position " + str(o.position),
+                                    showInConsole=True)
+                    exit(1)
 
         def to_grid_pos(self, pos: Vector):
             (x, y, z) = pos.v
-            return x // self.grid_edge_size, y // self.grid_edge_size, z // self.grid_edge_size
+            return int(x // self.grid_edge_size), int(y // self.grid_edge_size), int(z // self.grid_edge_size)
 
         def compute_collisions(self):
             for x in range(int(self.size_x / self.grid_edge_size)):
