@@ -37,6 +37,9 @@ class Object(Loggable):
             self.position.plus(direction)
         else:
             self.position.plus(self.direction)
+
+        while not grid.in_range(self.position):  # count new position after wall collision
+            self.position = grid.wall_collision_next_position(self.position)
         grid.set(self)
 
     @abstractmethod
