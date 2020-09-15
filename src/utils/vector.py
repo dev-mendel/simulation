@@ -25,14 +25,7 @@ class Vector:
         x, y, z = self.v
         return "("+str(x)+", "+str(y)+", "+str(z)+")"
 
-    def get_line_vec(self, target):
-        """
-        :param target: Vector another point of line
-        :return: Vector which is significant to line equation
-        """
-        from_vec = self.deepcopy()
-        target_vec = target.deepcopy()
-        x_from, y_from, z_from = from_vec.v
-        target_vec.minus(from_vec)
-        x_target, y_target, z_target = target_vec.v
+    def __deepcopy__(self, memodict={}):
+        x, y, z = self.v
+        return Vector(x, y, z)
 

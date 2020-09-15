@@ -27,7 +27,17 @@ class MachineEntry(Generator):
 
         self.cyanos = float(IniLoader.load(env + "density")) # units / cm3
 
-        self.logger.log("created", showInConsole=True)
+        self.logger.log("created " + str(self), showInConsole=True)
+
+    def __str__(self):
+        return "( \nspeed:" + str(self.speed) \
+               + " \ncyanos:" + str(self.cyanos) \
+               + " \nsize_x:" + str(self.size_x) \
+               + " \nsize_y:" + str(self.size_y) \
+               + " \nsize_z:" + str(self.size_z) \
+               + " \nentry_x:" + str(self.entry_x) \
+               + " \nentry_y:" + str(self.entry_y) \
+               + "\n)"
 
     def generate(self, time_step):
         """
@@ -40,11 +50,11 @@ class MachineEntry(Generator):
         speed_mm_ms = self.speed * 10.0  # mm/ms
 
         cyanos = []
-        base_pos_vec = Vector(self.entry_x - 5, self.entry_y - 3, 50)
+        base_pos_vec = Vector(1, self.size_y // 2, self.size_z // 2)  # in the middle of entry
         base_dir_vec = Vector(speed_mm_ms * time_step, 0, 0)
 
         for c in range(cyanos_num):
-            cyanos.append(CyanoBacteria(self.ini_file, base_pos_vec, base_dir_vec))
+            cyanos.append(CyanoBacteria(self.ini_file, base_pos_vec.deepcopy(), base_dir_vec.deepcopy()))
 
-        self.logger.log("Generated: " + str(cyanos_num))
+        self.logger.log("Generated: " + str(cyanos_num) + str(base_pos_vec)+ str(base_dir_vec), showInConsole=True)
         return cyanos
