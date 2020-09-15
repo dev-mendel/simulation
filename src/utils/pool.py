@@ -52,6 +52,7 @@ class Grid:
             #    for y in range(int(self.size_y / self.grid_edge_size)):
             #        for z in range(int(self.size_z / self.grid_edge_size)):
             #            self.grid[x][y][z] = []
+            self.number_of_objects = 0
 
             self.logger.log("created, pool has: " + str(len(self.grid))+" "+str(len(self.grid[0]))+" "+str(len(self.grid[0][0]))
                             +"\n"+str(x_max)+","+str(y_max)+","+str(z_max), showInConsole=True)
@@ -68,6 +69,7 @@ class Grid:
             else:
                 try:
                     self.grid[x][y][z].add(o)
+                    self.number_of_objects += 1
                 except IndexError:
                     self.logger.log("Out of range " + str(o.id) + " at position " + str(o.position),
                                     showInConsole=True)
@@ -94,28 +96,32 @@ class Grid:
             :return: Vector, Vector: new position of object after wall collision, and new direction
             """
             (x, y, z) = self.to_grid_pos(pos)
-            (x_dir, y_dir, z_dir) = self.to_grid_pos(dir)
+
+            (x_dir, y_dir, z_dir) = dir.v
             (x_max, y_max, z_max) = self.max_range()
-            if x not in range(x_max):
+            if x not in range(x_max):  # collision in X axis
+                x_dir = -x_dir
                 if x < 0:
                     x = abs(x) % x_max
                 else:
                     over = x % x_max
                     x = x_max - over
-            elif y not in range(y_max):
+            elif y not in range(y_max):  # collision in Y axis
+                y_dir = -y_dir
                 if y < 0:
                     y = abs(y) % y_max
                 else:
                     over = y % y_max
                     y = y_max - over
-            elif z not in range(z_max):
+            elif z not in range(z_max):  # collision in Z axis
+                z_dir = -z_dir
                 if z < 0:
                     z = abs(z) % z_max
                 else:
                     over = z % z_max
                     z = z_max - over
 
-            return Vector(x, y, z)
+            return Vector(x, y, z), Vector(x_dir, y_dir, z_dir)
 
         def remove(self, o):
             """
@@ -124,11 +130,12 @@ class Grid:
             """
             (x, y, z) = self.to_grid_pos(o.position)
             if not self.in_range(o.position):
-                self.logger.log("couldn't remove object " + str(o.id) + " at position " + str(o.position), showInConsole=True)
+                self.logger.log("couldn't remove object " + str(o.id) + " at position " + str(o.position) + " " + str(self), showInConsole=True)
                 exit(1)
             else:
                 try:
                     self.grid[x][y][z].remove(o)
+                    self.number_of_objects -= 1
                 except IndexError:
                     self.logger.log("Out of range " + str(o.id) + " at position " + str(o.position),
                                     showInConsole=True)
@@ -157,6 +164,9 @@ class Grid:
                     pairs.append((item, item2))
 
             return pairs
+
+        def __str__(self):
+            return "pool has: " + str(len(self.grid))+" "+str(len(self.grid[0]))+" "+str(len(self.grid[0][0])) + " with " + str(self.number_of_objects) + " objects"
 
     class Stack:
         def __init__(self):
