@@ -21,9 +21,26 @@ class Vector:
         x2, y2, z2 = vec.v
         self.v = ((x + x2) / 2, (y + y2) / 2, (z + z2) / 2)
 
+    def __add__(self, other):
+        x1, y1, z1 = self.v
+        x2, y2, z2 = other.v
+        return Vector(x1 + x2, y1 + y2, z1 + z2)
+
+    def __sub__(self, other):
+        x1, y1, z1 = self.v
+        x2, y2, z2 = other.v
+        return Vector(x1 - x2, y1 - y2, z1 - z2)
+
+    def __neg__(self):
+        x, y, z = self.v
+        return Vector(-x, -y, -z)
+
     def __str__(self):
         x, y, z = self.v
         return "("+str(x)+", "+str(y)+", "+str(z)+")"
+
+    def __repr__(self):
+        return str(self)
 
     def __deepcopy__(self, memodict={}):
         x, y, z = self.v
