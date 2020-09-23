@@ -54,6 +54,7 @@ class SimulationManager:
                     elements: [Object] = generator.generate(self.time_step)
                     for i_object, obj in enumerate(elements):
                         self.register_object(obj)
+                self.logger.log(Grid().pool, showInConsole=True)
                 for i_object, obj in enumerate(self.objects):
                     obj.move()
                 self.simulation_time += self.time_step

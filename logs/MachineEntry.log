@@ -862,3 +862,147 @@ Event: created
 Event: Generated: 4000
 2020-08-31 19:40:10
 
+######## MachineEntry
+Event: created
+2020-09-14 21:23:08
+
+######## MachineEntry
+Event: Generated: 4000
+2020-09-14 21:23:10
+
+######## MachineEntry
+Event: created
+2020-09-14 21:24:14
+
+######## MachineEntry
+Event: Generated: 4000
+2020-09-14 21:24:16
+
+######## MachineEntry
+Event: created
+2020-09-14 21:38:28
+
+######## MachineEntry
+Event: Generated: 4000
+2020-09-14 21:38:30
+
+######## MachineEntry
+Event: created
+2020-09-14 21:53:33
+
+######## MachineEntry
+Event: Generated: 4000
+2020-09-14 21:53:34
+
+######## MachineEntry
+Event: created
+2020-09-14 21:54:46
+
+######## MachineEntry
+Event: Generated: 4000
+2020-09-14 21:54:48
+
+######## MachineEntry
+Event: created
+2020-09-14 21:55:59
+
+######## MachineEntry
+Event: Generated: 4000
+2020-09-14 21:56:00
+
+######## MachineEntry
+Event: created
+2020-09-14 22:01:38
+
+######## MachineEntry
+Event: Generated: 4000
+2020-09-14 22:01:40
+
+######## MachineEntry
+Event: created ( 
+speed:0.05 
+cyanos:0.2 
+size_x:54.0 
+size_y:30.0 
+size_z:20.0 
+entry_x:20.0 
+entry_y:20.0
+)
+2020-09-14 22:08:57
+
+######## MachineEntry
+Event: Generated: 4000
+2020-09-14 22:08:58
+
+######## MachineEntry
+Event: created ( 
+speed:0.05 
+cyanos:0.2 
+size_x:54.0 
+size_y:30.0 
+size_z:20.0 
+entry_x:20.0 
+entry_y:20.0
+)
+2020-09-14 22:17:02
+
+######## MachineEntry
+Event: Generated: 4000(1, 15.0, 10.0)(500.0, 0, 0)
+2020-09-14 22:17:03
+
+######## MachineEntry
+Event: created ( 
+speed:0.05 
+cyanos:0.2 
+size_x:54.0 
+size_y:30.0 
+size_z:20.0 
+entry_x:20.0 
+entry_y:20.0
+)
+2020-09-14 22:31:15
+
+######## MachineEntry
+Event: Generated: 4000(1, 15.0, 10.0)(500.0, 0, 0)
+2020-09-14 22:31:17
+
+######## MachineEntry
+Event: created ( 
+speed:0.05 
+cyanos:0.2 
+size_x:54.0 
+size_y:30.0 
+size_z:20.0 
+entry_x:20.0 
+entry_y:20.0
+)
+2020-09-14 22:35:13
+
+######## MachineEntry
+Event: Generated: 4000(1, 15.0, 10.0)(500.0, 0, 0)
+2020-09-14 22:35:15
+
+######## MachineEntry
+Event: created ( 
+speed:0.05 
+cyanos:0.2 
+size_x:54.0 
+size_y:30.0 
+size_z:20.0 
+entry_x:20.0 
+entry_y:20.0
+)
+2020-09-14 23:11:45
+
+######## MachineEntry
+Event: created ( 
+speed:0.05 
+cyanos:0.2 
+size_x:54.0 
+size_y:30.0 
+size_z:20.0 
+entry_x:20.0 
+entry_y:20.0
+)
+2020-09-14 23:13:54
+
