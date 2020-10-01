@@ -64,3 +64,11 @@ class Ball(Object):
         if len(self.cyanos) > 0:
             o.docker = None
             del self.cyanos[o.id]
+
+    def json_str(self):
+        return "{" \
+                    + '"type": "' + str(self.type) + '", ' \
+                    + '"id": ' + str(self.id) + ", " \
+                    + '"docked": ' + str(len(self.cyanos)) + ", " \
+                    + '"pos": ' + str(self.position.json_str()) \
+               + "}"
