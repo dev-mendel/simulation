@@ -37,7 +37,7 @@ class SimulationManager:
             self.generators: [Generator] = []
             self.objects: [Object] = []
 
-            self.picker = DataPicker()
+            self.picker = DataPicker(INI_FILE)
 
             self.logger.log('created', showInConsole=True)
 
@@ -53,7 +53,7 @@ class SimulationManager:
             self.logger.log('Simulation begins', showInConsole=True)
 
             while self.simulation_time < self.simulation_finish_time:
-                self.logger.log('Simulation time ' + str(self.simulation_time), showInConsole=True)
+                self.logger.log('Simulation time ' + str(self.simulation_time / 1000) + " s", showInConsole=True)
                 for i, generator in enumerate(self.generators):
                     elements: [Object] = generator.generate(self.time_step)
                     for i_object, obj in enumerate(elements):
@@ -64,5 +64,7 @@ class SimulationManager:
                     obj.move()
                     self.picker.add(obj.json_str())
                 self.picker.logger.log(self.picker.json_str())
+                self.picker.store()
                 self.simulation_time += self.time_step
+            del self.picker
             self.logger.log('Simulation ends', showInConsole=True)
