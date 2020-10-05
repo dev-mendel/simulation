@@ -103,6 +103,8 @@ class Grid:
                 x_dir = -x_dir
                 if x < 0:
                     x = abs(x) % x_max
+                elif x == x_max:
+                    x = x_max - 1
                 else:
                     over = x % x_max
                     x = x_max - over
@@ -110,6 +112,8 @@ class Grid:
                 y_dir = -y_dir
                 if y < 0:
                     y = abs(y) % y_max
+                elif y == y_max:
+                    y = y_max - 1
                 else:
                     over = y % y_max
                     y = y_max - over
@@ -117,6 +121,8 @@ class Grid:
                 z_dir = -z_dir
                 if z < 0:
                     z = abs(z) % z_max
+                elif z == z_max:
+                    z = z_max - 1
                 else:
                     over = z % z_max
                     z = z_max - over

@@ -18,16 +18,20 @@ class Ball(Object):
         self.capacity = int(IniLoader.load(self.ini + "capacity"))
         self.grid_size = int(IniLoader.load(self.ini + "grid_size"))
         self.avg_docking = int(IniLoader.load(self.ini + "avg_docking"))
+        self.destroyed = 0  # nuber of destroyed cells
 
         self.cyanos = []  # : [CyanoBacteria]
 
         self.type = ObjectTypes.BALL
 
     def move(self, direction=None):
+        self.destroyed = 0  # count number of destroyed cells
         for i, item in enumerate(self.cyanos):
             self.cyanos[i]["time"] -= SimulationManager().manager.time_step
             if self.cyanos[i]["time"] <= 0:
                 self.undock(self.cyanos[i]["obj"])
+                self.destroyed += 1
+        super(Ball, self).move()
 
 
     def collision(self, o: Object):
@@ -70,5 +74,6 @@ class Ball(Object):
                     + '"type": "' + str(self.type) + '", ' \
                     + '"id": ' + str(self.id) + ", " \
                     + '"docked": ' + str(len(self.cyanos)) + ", " \
+                    + '"destroyed": ' + str(self.destroyed) + ", " \
                     + '"pos": ' + str(self.position.json_str()) \
                + "}"
