@@ -89,11 +89,32 @@ def create_cyanobacteria_and_docked_cyanobacteria_graph(json_object, output_file
     fig = go.Figure(data=data, layout=layout)
     fig.write_html(output_filename)
 
+
+def create_cyanobacteria_and_destroyed_cyanobacteria_graph(json_object, output_filename):
+    ball_objects = filter_objects("BALL", json_object)
+    destroyed_cyanobacterias = list(map(lambda balls: sum(map(lambda ball: ball["destroyed"], balls)), ball_objects))
+
+    trace_destroyed = go.Scatter(x=list(range(len(destroyed_cyanobacterias))),
+                              y=destroyed_cyanobacterias,
+                              mode="lines",
+                              name="Destroyed cyanobacteria")
+
+    data = [trace_destroyed]
+
+    layout = {
+        "title": "Dependency of destroyed cyanobacteria on time",
+        "xaxis": {"title":"Iteration number"},
+        "yaxis": {"title":"Object count"},
+        }
+    fig = go.Figure(data=data, layout=layout)
+    fig.write_html(output_filename)
+
+
 def main():
     json = load_json(r"..\..\storage\data.json")
     create_cyanobacteria_and_bacteria_graph(json, "graph1.html")
     create_cyanobacteria_and_docked_cyanobacteria_graph(json, "graph2.html")
-
+    create_cyanobacteria_and_destroyed_cyanobacteria_graph(json, "graph3.html")
 
 if __name__ == "__main__":
     main()
