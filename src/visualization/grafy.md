@@ -17,3 +17,18 @@ Pomocí logu bakterií. (Udělá Petr a Pavel.)
 
 Data picker na zacatku zaloguje rozmery pristroje (Petr a Pavel).
 Zkusit data picker předělat rozšířit o čistý json log.
+
+## další grafy
+
+### Motivace (co bychom potřebovali vědět)
+Cílem bude pro nás určit, jaké parametry ovlivňují efektivitu přístroje a jakým způsobem ji můžeme zvýšit.
+a) přístroj může ztratit efektivitu tím, že nedojde ke kolizi sinice a BALL.
+b) přístroj může ztratit efektivitu tím, že při kolizi bude BALL mít plnou kapacitu.
+
+## graf 4
+počet odchozích sinic, které nemají kolizi s BALL
+počet odchozích sinic, které mají kolizi BALL (!= počet mrtvých sinic)
+
+## graf 5
+počet sinic z kolizí
+počet "nadokovaných" sinic
