@@ -6,6 +6,7 @@ from debug.iniLoader import IniLoader
 from utils.pool import Grid
 from generator.generator import Generator
 from objects.object import Object
+from visualization.data_picker import DataPicker
 
 
 class SimulationManager:
@@ -36,6 +37,8 @@ class SimulationManager:
             self.generators: [Generator] = []
             self.objects: [Object] = []
 
+            self.picker = DataPicker(INI_FILE)
+
             self.logger.log('created', showInConsole=True)
 
         def register_generator(self, g: Generator):
@@ -48,14 +51,21 @@ class SimulationManager:
 
         def run(self):
             self.logger.log('Simulation begins', showInConsole=True)
+
             while self.simulation_time < self.simulation_finish_time:
-                self.logger.log('Simulation time ' + str(self.simulation_time), showInConsole=True)
+                self.logger.log('Simulation time ' + str(self.simulation_time / 1000) + " s", showInConsole=True)
                 for i, generator in enumerate(self.generators):
                     elements: [Object] = generator.generate(self.time_step)
                     for i_object, obj in enumerate(elements):
                         self.register_object(obj)
                 self.logger.log(Grid().pool, showInConsole=True)
+                self.picker.reset()
+                self.picker.set_time(self.simulation_time)
                 for i_object, obj in enumerate(self.objects):
                     obj.move()
+                    self.picker.add(obj.json_str())
+                self.picker.logger.log(self.picker.json_str())
+                self.picker.store()
                 self.simulation_time += self.time_step
+            del self.picker
             self.logger.log('Simulation ends', showInConsole=True)

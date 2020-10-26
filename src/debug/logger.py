@@ -42,6 +42,8 @@ class Logger:
         self.logFile = open(Logger.rootPath + config['logger']['dir_path'] + self.className + ".log", "a")
         """appends log file for all logs"""
         self.allLogFile = open(Logger.rootPath + config['logger']['dir_path'] + config['logger']['general'] + ".log", "a")
+        """clean log dir"""
+        clean = int(config['logger']['clean'])
         
         #creates logs dir
         if not os.path.exists(Logger.rootPath + config['logger']['dir_path']):
@@ -70,7 +72,7 @@ class Logger:
     def clean():
         """Clean all logs files"""
         config = configparser.ConfigParser()
-        config.read(Logger.configPath + 'debug.ini')
+        config.read(Logger.rootPath + 'config/template.ini')
         print("Current path: " + str(os.path.abspath('.')))
         
         #creates logs dir

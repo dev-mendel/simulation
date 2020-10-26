@@ -40,7 +40,15 @@ class Object(Loggable):
 
         while not grid.in_range(self.position):  # count new position after wall collision
             self.position, self.direction = grid.wall_collision_next_position(self.position, self.direction)
+        self.logger.log(self.json_str())
         grid.set(self)
+
+    def json_str(self):
+        return "{" \
+                    + '"type": "' + str(self.type) + '", ' \
+                   + '"id": ' + str(self.id) + ", " \
+                   + '"pos": ' + str(self.position.json_str()) \
+               + "}"
 
     @abstractmethod
     def collision(self, o):

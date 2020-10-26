@@ -42,7 +42,15 @@ class Vector:
     def __repr__(self):
         return str(self)
 
+    def json_str(self):
+        x, y, z = self.v
+        return '{"x":'+str(x)+',"y":'+str(y)+',"z":'+str(z)+'}'
+
     def __deepcopy__(self, memodict={}):
+        x, y, z = self.v
+        return Vector(x, y, z)
+
+    def deepcopy(self):
         x, y, z = self.v
         return Vector(x, y, z)
 
