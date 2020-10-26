@@ -5,6 +5,7 @@ from debug.iniLoader import IniLoader
 from utils.vector import Vector
 from objects.cyanobacteria import CyanoBacteria
 from generator.generator import Generator
+from random import randint
 
 
 class MachineEntry(Generator):
@@ -49,12 +50,21 @@ class MachineEntry(Generator):
 
         speed_mm_ms = self.speed * 10.0  # mm/ms
 
+        start_diff_y = int((self.size_y - self.entry_x) // 2)
+        start_diff_z = int((self.size_z - self.entry_y) // 2)
+
         cyanos = []
-        base_pos_vec = Vector(1, self.size_y // 2, self.size_z // 2)  # in the middle of entry
-        base_dir_vec = Vector(speed_mm_ms * time_step, 0, 0)
+        base_pos_vec = None
+        base_dir_vec = None
 
         for c in range(cyanos_num):
-            cyanos.append(CyanoBacteria(self.ini_file, base_pos_vec.deepcopy(), base_dir_vec.deepcopy()))
+            base_pos_vec = Vector(
+                                1,
+                                randint(start_diff_y, int(start_diff_y + self.entry_x)),
+                                randint(start_diff_z, int(start_diff_z + self.entry_y))
+            )  # somewhere int he entry
+            base_dir_vec = Vector(speed_mm_ms * time_step, randint(-5, 5), randint(-5, 5))
+            cyanos.append(CyanoBacteria(self.ini_file, base_pos_vec, base_dir_vec))
 
-        self.logger.log("Generated: " + str(cyanos_num) + str(base_pos_vec)+ str(base_dir_vec), showInConsole=True)
+        self.logger.log("Generated: " + str(cyanos_num) + " " + str(base_pos_vec) + " " + str(base_dir_vec), showInConsole=True)
         return cyanos
